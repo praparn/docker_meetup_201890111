@@ -79,13 +79,13 @@ Part 3: Deploy example compose appliction with K8S and Swarm (Docker-machine)
 
 3. Check service avaliable and pods by command
     docker stack ls
-    ---------------------------------------------------
-	Example: Port mapping outside on TCP:32140
-	---------------------------------------------------
-    NAME         TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
-    kubernetes   ClusterIP   10.96.0.1      <none>        443/TCP          1h
-    webtest      NodePort    10.99.118.45   <none>        5000:32140/TCP   6s
-	---------------------------------------------------
+    docker stack services k8stack
+    docker stack ps k8stack
+
+    kubectl get pods
+    kubectl get svc
+
+4. Open web browser and check result by url: http://localhost
 
 #### Docker-Machine: Labdocker (Linux with Swarm) ####
 1. Initial Swarm and check swarm by command:
@@ -99,14 +99,14 @@ Part 3: Deploy example compose appliction with K8S and Swarm (Docker-machine)
 3. Deploy compose_example.yml on K8S by command:
     docker stack deploy --compose-file compose_example.yml swarmstack
 
+4. Check service avaliable and pods by command
+    docker stack ls
+    docker stack services swarmstack
+    docker stack ps swarmstack
 
-	---------------------------------------------------
-	Example: Port mapping outside on TCP:32131
-	---------------------------------------------------
-	NAME         CLUSTER-IP   EXTERNAL-IP   PORT(S)          AGE
-	kubernetes   10.0.0.1     <none>        443/TCP          4d
-	webtest      10.0.0.87    <nodes>       5000:32131/TCP   4m
-	---------------------------------------------------
+    docker service ls
+    docker service ps xxx
+
 
 5. Test curl and web browser for access web by command:
 	curl http://<ip of minikube>:<port>
