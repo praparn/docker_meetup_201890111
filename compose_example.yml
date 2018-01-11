@@ -4,8 +4,6 @@ services:
   web:
     build: web
     image: dockerdemos/lab-web
-    volumes:
-     - "./web/static:/static"
     ports:
      - "80:80"
 

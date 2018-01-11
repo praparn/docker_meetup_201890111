@@ -42,14 +42,21 @@ Part 2: Deploy simple appliction and compare with simple docker method
 
 3. Open web browser and check pods url: http://localhost:xxxx ==> Port from No.2
 
-4. Create container by native docker command:
+4. Check and assessment for pods "webtest" by command:
+    kubectl exec -it webtest -c webtest sh
+    more mainlite.py
+    exit
+    kubectl get pods
+    kubectl get svc
 
+(open new tab)
+5. Create container by native docker command:
     docker run -dt --name webtest -p 5000:5000 labdocker/cluster:webservicelite
-    docker ps |grep abdocker/cluster:webservicelite
+    docker ps |grep labdocker/cluster:webservicelite
 
-5. Open web browser and chek result by url: http://localhost:5000
+6. Open web browser and chek result by url: http://localhost:5000
 
-6. Clean Up lab by command:
+7. Clean Up lab by command:
 
     # For Kubernetes
     kubectl delete -f webtest_svc.yml
@@ -64,12 +71,14 @@ Part 3: Deploy example compose appliction with K8S and Swarm (Docker-machine)
 ====================================================
 
 #### Docker for MAC ####
-1. Deploy compose_example.yml on K8S by command:
-    docker stack deploy --compose-file compose_example.yml
+1. Download compose file by command:
+    curl https://raw.githubusercontent.com/praparn/docker_meetup_201890111/master/compose_example.yml > compose_example.yml
 
-2. Check service avaliable and pods by command
-    kubectl get pods
-    kubectl get svc     ==> Check Port Result
+2. Deploy compose_example.yml on K8S by command:
+    docker stack deploy --compose-file compose_example.yml k8stack
+
+3. Check service avaliable and pods by command
+    docker stack ls
     ---------------------------------------------------
 	Example: Port mapping outside on TCP:32140
 	---------------------------------------------------
@@ -79,10 +88,17 @@ Part 3: Deploy example compose appliction with K8S and Swarm (Docker-machine)
 	---------------------------------------------------
 
 #### Docker-Machine: Labdocker (Linux with Swarm) ####
-1. Initial Swarm by command:
-    docker swarm init 
+1. Initial Swarm and check swarm by command:
+    docker swarm init --advertise-addr 192.168.99.100:2377 --task-history-limit 2
+    docker node ls
 
-2.     
+2. Download compose file by command:
+    curl https://raw.githubusercontent.com/praparn/docker_meetup_201890111/master/compose_example.yml > compose_example.yml
+
+
+3. Deploy compose_example.yml on K8S by command:
+    docker stack deploy --compose-file compose_example.yml swarmstack
+
 
 	---------------------------------------------------
 	Example: Port mapping outside on TCP:32131
