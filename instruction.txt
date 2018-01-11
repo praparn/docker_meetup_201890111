@@ -1,0 +1,98 @@
+Instruction for Docker MeetUp 17/01/2019:
+====================================================
+Part 1: Set environment for Docker for MAC
+====================================================
+1. Get context environment of existing kubectl by command: kubectl config get-contexts
+
+2. Set environment of existing kubectl by command: kubectl config use-context docker-for-desktop
+
+3. Deploy K8S dashboard by command: 
+    kubectl create -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml
+
+4. Check status of pods by command:
+    kubectl get pod --namespace=kube-system | grep dashboard
+    --------------------------------------------------
+    Example Result: kubernetes-dashboard-7798c48646-vb8jr        1/1       Running   0          21s 
+    --------------------------------------------------
+
+5. Forward Port from MAC to specific pods:
+    kubectl port-forward <pods name from no.4> 8443:8443 --namespace=kube-system
+
+6. Open web browser and check dashboard url: http://localhost:8443
+
+====================================================
+Part 2: Deploy simple appliction and compare with simple docker method
+====================================================
+
+1. Access to current path and create pods/service by command
+    kubectl create -f webtest_pod.yml
+    kubectl create -f webtest_svc.yml
+
+2. Check service avaliable and pods by command
+    kubectl get pods
+    kubectl get svc     ==> Check Port Result
+    ---------------------------------------------------
+	Example: Port mapping outside on TCP:32140
+	---------------------------------------------------
+    NAME         TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
+    kubernetes   ClusterIP   10.96.0.1      <none>        443/TCP          1h
+    webtest      NodePort    10.99.118.45   <none>        5000:32140/TCP   6s
+	---------------------------------------------------
+
+
+3. Open web browser and check pods url: http://localhost:xxxx ==> Port from No.2
+
+4. Create container by native docker command:
+
+    docker run -dt --name webtest -p 5000:5000 labdocker/cluster:webservicelite
+    docker ps |grep abdocker/cluster:webservicelite
+
+5. Open web browser and chek result by url: http://localhost:5000
+
+6. Clean Up lab by command:
+
+    # For Kubernetes
+    kubectl delete -f webtest_svc.yml
+    kubectl delete -f webtest_pod.yml
+
+    # For Docker Native
+    docker stop webtest
+    docker rm webtest
+
+====================================================
+Part 3: Deploy example compose appliction with K8S and Swarm (Docker-machine)
+====================================================
+
+#### Docker for MAC ####
+1. Deploy compose_example.yml on K8S by command:
+    docker stack deploy --compose-file compose_example.yml
+
+2. Check service avaliable and pods by command
+    kubectl get pods
+    kubectl get svc     ==> Check Port Result
+    ---------------------------------------------------
+	Example: Port mapping outside on TCP:32140
+	---------------------------------------------------
+    NAME         TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
+    kubernetes   ClusterIP   10.96.0.1      <none>        443/TCP          1h
+    webtest      NodePort    10.99.118.45   <none>        5000:32140/TCP   6s
+	---------------------------------------------------
+
+#### Docker-Machine: Labdocker (Linux with Swarm) ####
+1. Initial Swarm by command:
+    docker swarm init 
+
+2.     
+
+	---------------------------------------------------
+	Example: Port mapping outside on TCP:32131
+	---------------------------------------------------
+	NAME         CLUSTER-IP   EXTERNAL-IP   PORT(S)          AGE
+	kubernetes   10.0.0.1     <none>        443/TCP          4d
+	webtest      10.0.0.87    <nodes>       5000:32131/TCP   4m
+	---------------------------------------------------
+
+5. Test curl and web browser for access web by command:
+	curl http://<ip of minikube>:<port>
+
+6. Check detail of Pods and service by command
