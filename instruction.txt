@@ -82,10 +82,14 @@ Part 3: Deploy example compose appliction with K8S and Swarm (Docker-machine)
     docker stack services k8stack
     docker stack ps k8stack
 
-    kubectl get pods
-    kubectl get svc
+    kubectl get pods            ==> Portion Command for K8S
+    kubectl get svc             ==> Portion Command for K8S
 
 4. Open web browser and check result by url: http://localhost
+
+5. Clean up by command: 
+    docker stack rm k8stack
+    kubectl delete -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml
 
 #### Docker-Machine: Labdocker (Linux with Swarm) ####
 1. Initial Swarm and check swarm by command:
@@ -104,9 +108,20 @@ Part 3: Deploy example compose appliction with K8S and Swarm (Docker-machine)
     docker stack services swarmstack
     docker stack ps swarmstack
 
-    docker service ls
-    docker service ps xxx
+    docker service ls           ==> Portion Command for Swarm
+    docker service ps swarmstack_db         ==> Portion Command for K8S
+    docker service ps swarmstack_web        ==> Portion Command for K8S
+    docker service ps swarmstack_words      ==> Portion Command for K8S
 
+5. Open web browser and check result by url: http://192.168.99.100
+
+6. clean up by command: 
+    docker stack rm swarmstack
+
+#### Clean Up ####
+
+Run Both Swarm/K8S
+    docker stack rm 
 
 5. Test curl and web browser for access web by command:
 	curl http://<ip of minikube>:<port>
