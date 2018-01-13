@@ -51,8 +51,8 @@ Part 2: Deploy simple appliction and compare with simple docker method
 
 (open new tab)
 5. Create container by native docker command:
-    docker run -dt --name webtest -p 5000:5000 labdocker/cluster:webservicelite
-    docker ps |grep labdocker/cluster:webservicelite
+    docker container run -dt --name webtest -p 5000:5000 labdocker/cluster:webservicelite
+    docker container ps |grep labdocker/cluster:webservicelite
 
 6. Open web browser and chek result by url: http://localhost:5000
 
@@ -117,13 +117,3 @@ Part 3: Deploy example compose appliction with K8S and Swarm (Docker-machine)
 
 6. clean up by command: 
     docker stack rm swarmstack
-
-#### Clean Up ####
-
-Run Both Swarm/K8S
-    docker stack rm 
-
-5. Test curl and web browser for access web by command:
-	curl http://<ip of minikube>:<port>
-
-6. Check detail of Pods and service by command
