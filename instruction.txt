@@ -18,7 +18,7 @@ Part 1: Set environment for Docker for MAC
 5. Forward Port from MAC to specific pods:
     kubectl port-forward <pods name from no.4> 8443:8443 --namespace=kube-system
 
-6. Open web browser and check dashboard url: http://localhost:8443
+6. Open web browser and check dashboard url: http://127.0.0.1:8443
 
 ====================================================
 Part 2: Deploy simple appliction and compare with simple docker method
@@ -40,7 +40,7 @@ Part 2: Deploy simple appliction and compare with simple docker method
 	---------------------------------------------------
 
 
-3. Open web browser and check pods url: http://localhost:xxxx ==> Port from No.2
+3. Open web browser and check pods url: http://127.0.0.1:xxxx ==> Port from No.2
 
 4. Check and assessment for pods "webtest" by command:
     kubectl exec -it webtest -c webtest sh
@@ -54,7 +54,7 @@ Part 2: Deploy simple appliction and compare with simple docker method
     docker container run -dt --name webtest -p 5000:5000 labdocker/cluster:webservicelite
     docker container ps |grep labdocker/cluster:webservicelite
 
-6. Open web browser and chek result by url: http://localhost:5000
+6. Open web browser and chek result by url: http://127.0.0.1:5000
 
 7. Clean Up lab by command:
 
@@ -63,8 +63,8 @@ Part 2: Deploy simple appliction and compare with simple docker method
     kubectl delete -f webtest_pod.yml
 
     # For Docker Native
-    docker stop webtest
-    docker rm webtest
+    docker container stop webtest
+    docker container rm webtest
 
 ====================================================
 Part 3: Deploy example compose appliction with K8S and Swarm (Docker-machine)
@@ -85,7 +85,7 @@ Part 3: Deploy example compose appliction with K8S and Swarm (Docker-machine)
     kubectl get pods            ==> Portion Command for K8S
     kubectl get svc             ==> Portion Command for K8S
 
-4. Open web browser and check result by url: http://localhost
+4. Open web browser and check result by url: http://127.0.0.1
 
 5. Clean up by command: 
     docker stack rm k8stack
